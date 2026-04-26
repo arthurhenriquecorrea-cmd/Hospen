@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos — Hospen</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-inner container">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Hospen" style="height:32px;width:auto;" />
+        <span>Hospen</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Menu principal">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="catalog.html" class="nav-link active">Produtos</a>
+        <a href="index.html#categorias" class="nav-link">Categorias</a>
+        <a href="index.html#contato" class="nav-link">Contato</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-search" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="btn-cart" id="btn-cart-header" aria-label="Carrinho">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <button class="btn-menu-mobile" id="btn-menu-mobile" aria-label="Abrir menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="search-bar" id="search-bar">
+      <div class="container">
+        <input type="text" id="search-input" placeholder="Buscar produtos..." autocomplete="off" />
+        <button id="btn-search-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <nav class="nav-mobile" id="nav-mobile" aria-label="Menu mobile">
+      <a href="index.html" class="nav-link">Início</a>
+      <a href="catalog.html" class="nav-link">Produtos</a>
+      <a href="index.html#categorias" class="nav-link">Categorias</a>
+      <a href="index.html#contato" class="nav-link">Contato</a>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 id="page-title">Todos os Produtos</h1>
+      <p id="page-subtitle">Encontre o que você está procurando</p>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <main class="container">
+    <div class="catalog-layout">
+
+      <!-- FILTROS -->
+      <aside class="filters-sidebar" id="filters-sidebar">
+        <div class="filter-card">
+          <h4>Categorias</h4>
+          <div id="filter-categories">
+            <label class="filter-option">
+              <input type="checkbox" value="all" checked id="cat-all" onchange="handleCatFilter(this)" />
+              <label for="cat-all">Todas as categorias</label>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-card">
+          <h4>Faixa de preço</h4>
+          <div class="filter-option">
+            <input type="checkbox" id="price-0-100" value="0-100" onchange="applyFilters()" />
+            <label for="price-0-100">Até R$ 100</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="price-100-200" value="100-200" onchange="applyFilters()" />
+            <label for="price-100-200">R$ 100 – R$ 200</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="price-200-300" value="200-300" onchange="applyFilters()" />
+            <label for="price-200-300">R$ 200 – R$ 300</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="price-300" value="300+" onchange="applyFilters()" />
+            <label for="price-300">Acima de R$ 300</label>
+          </div>
+        </div>
+
+        <div class="filter-card">
+          <h4>Condição</h4>
+          <div class="filter-option">
+            <input type="checkbox" id="filter-sale" value="sale" onchange="applyFilters()" />
+            <label for="filter-sale">Em promoção</label>
+          </div>
+          <div class="filter-option">
+            <input type="checkbox" id="filter-new" value="new" onchange="applyFilters()" />
+            <label for="filter-new">Novidades</label>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" style="width:100%;background:var(--primary);margin-top:4px" onclick="clearFilters()">
+          Limpar filtros
+        </button>
+      </aside>
+
+      <!-- PRODUTOS -->
+      <section class="catalog-main">
+        <div class="catalog-toolbar">
+          <span class="catalog-count" id="catalog-count">Carregando...</span>
+          <select class="catalog-sort" id="catalog-sort" onchange="applyFilters()">
+            <option value="default">Relevância</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+          </select>
+        </div>
+
+        <!-- Mobile: Abrir filtros -->
+        <div style="display:none" id="mobile-filter-toggle">
+          <button class="btn btn-ghost" style="width:100%;margin-bottom:16px" onclick="toggleMobileFilters()">
+            <i class="fa-solid fa-sliders"></i> Filtros
+          </button>
+          <!-- Mobile filter drawer aqui se precisar -->
+        </div>
+
+        <div class="products-grid" id="catalog-grid">
+          <!-- Preenchido via JS -->
+        </div>
+
+        <div class="pagination" id="pagination"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="logo.png" alt="Hospen" style="height:32px;width:auto;" /><span>Hospen</span></a>
+        <p>Produtos de qualidade com a melhor experiência de compra.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Loja</h4>
+        <a href="catalog.html">Todos os produtos</a>
+        <a href="catalog.html?filter=sale">Promoções</a>
+        <a href="catalog.html?filter=new">Novidades</a>
+      </div>
+      <div class="footer-col">
+        <h4>Ajuda</h4>
+        <a href="#">Frete e entrega</a>
+        <a href="#">Trocas e devoluções</a>
+        <a href="#">Política de privacidade</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="mailto:contato@hospen.com.br"><i class="fa-solid fa-envelope"></i> contato@hospen.com.br</a>
+        <a href="https://wa.me/5511999999999"><i class="fa-brands fa-whatsapp"></i> (11) 99999-9999</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Hospen. Todos os direitos reservados.</p>
+      <p>Feito com <i class="fa-solid fa-heart" style="color:#ef4444"></i> no Brasil</p>
+    </div>
+  </footer>
+
+  <!-- CARRINHO LATERAL -->
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-cart-shopping"></i> Carrinho</h3>
+      <button id="btn-close-cart"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty" id="cart-empty">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <p>Seu carrinho está vazio</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-summary"><span>Subtotal</span><strong id="cart-subtotal">R$ 0,00</strong></div>
+      <div class="cart-summary"><span>Frete</span><strong id="cart-freight">Calcular</strong></div>
+      <div class="cart-summary total"><span>Total</span><strong id="cart-total">R$ 0,00</strong></div>
+      <a href="checkout.html" class="btn btn-primary btn-full"><i class="fa-solid fa-lock"></i> Finalizar compra</a>
+      <button class="btn btn-ghost btn-full" id="btn-continue-shopping">Continuar comprando</button>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>

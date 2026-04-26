@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido Confirmado — Hospen</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="checkout-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Hospen" style="height:32px;width:auto;" />
+        <span>Hospen</span>
+      </a>
+      <div class="checkout-steps">
+        <div class="step done" id="step-1">
+          <span class="step-num"><i class="fa-solid fa-check"></i></span>
+          <span>Dados</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step done" id="step-2">
+          <span class="step-num"><i class="fa-solid fa-check"></i></span>
+          <span>Pagamento</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step active" id="step-3">
+          <span class="step-num">3</span>
+          <span>Confirmação</span>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </header>
+
+  <!-- SUCCESS PAGE -->
+  <main class="success-page">
+    <div class="success-card">
+      <i class="fa-solid fa-circle-check success-icon"></i>
+      <h2>Pedido confirmado! 🎉</h2>
+      <p>Obrigado pela sua compra! Você receberá um e-mail de confirmação em breve.</p>
+
+      <div class="order-number">
+        <small>Número do pedido</small>
+        <strong id="order-number-display">Carregando...</strong>
+      </div>
+
+      <div style="background:var(--bg);border-radius:var(--radius-sm);padding:16px;margin-bottom:24px;text-align:left">
+        <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px">
+          <i class="fa-solid fa-truck-fast" style="color:var(--primary);margin-top:2px"></i>
+          <div>
+            <p style="font-weight:600;font-size:0.9rem;margin-bottom:2px">Previsão de entrega</p>
+            <p style="font-size:0.85rem;color:var(--text-muted)" id="delivery-date">Calculando...</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <i class="fa-solid fa-envelope" style="color:var(--primary);margin-top:2px"></i>
+          <div>
+            <p style="font-weight:600;font-size:0.9rem;margin-bottom:2px">Confirmação por e-mail</p>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Você receberá os detalhes no e-mail cadastrado</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="catalog.html" class="btn btn-primary">
+          <i class="fa-solid fa-bag-shopping"></i> Continuar comprando
+        </a>
+        <a href="index.html" class="btn btn-ghost">
+          <i class="fa-solid fa-house"></i> Voltar ao início
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const order = params.get('order');
+      const orderDisplay = document.getElementById('order-number-display');
+      if (orderDisplay) orderDisplay.textContent = order || 'ML' + Date.now().toString().slice(-8);
+
+      // Calcular previsão de entrega (3-7 dias úteis)
+      const deliveryDisplay = document.getElementById('delivery-date');
+      if (deliveryDisplay) {
+        const today = new Date();
+        const minDate = new Date(today);
+        const maxDate = new Date(today);
+        let addedMin = 0, addedMax = 0;
+
+        while (addedMin < 3) {
+          minDate.setDate(minDate.getDate() + 1);
+          const day = minDate.getDay();
+          if (day !== 0 && day !== 6) addedMin++;
+        }
+        while (addedMax < 7) {
+          maxDate.setDate(maxDate.getDate() + 1);
+          const day = maxDate.getDay();
+          if (day !== 0 && day !== 6) addedMax++;
+        }
+
+        const fmt = d => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
+        deliveryDisplay.textContent = `${fmt(minDate)} a ${fmt(maxDate)}`;
+      }
+    });
+  </script>
+</body>
+</html>

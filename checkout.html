@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Hospen</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- CHECKOUT HEADER -->
+  <header class="checkout-header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Hospen" style="height:32px;width:auto;" />
+        <span>Hospen</span>
+      </a>
+      <div class="checkout-steps">
+        <div class="step active" id="step-1">
+          <span class="step-num">1</span>
+          <span>Dados</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step" id="step-2">
+          <span class="step-num">2</span>
+          <span>Pagamento</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step" id="step-3">
+          <span class="step-num">3</span>
+          <span>Confirmação</span>
+        </div>
+      </div>
+      <a href="catalog.html" style="font-size:.85rem;color:var(--text-muted);display:flex;align-items:center;gap:6px">
+        <i class="fa-solid fa-arrow-left"></i> Voltar
+      </a>
+    </div>
+  </header>
+
+  <!-- CHECKOUT LAYOUT -->
+  <main class="container" id="checkout-main">
+    <div class="checkout-layout">
+
+      <!-- FORMULÁRIOS -->
+      <div id="checkout-forms">
+
+        <!-- ETAPA 1: Dados pessoais + endereço -->
+        <section class="checkout-form-section" id="section-personal">
+          <h3><i class="fa-solid fa-user"></i> Dados pessoais</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="input-name">Nome completo *</label>
+              <input type="text" id="input-name" placeholder="Seu nome completo" required />
+            </div>
+            <div class="form-group">
+              <label for="input-email">E-mail *</label>
+              <input type="email" id="input-email" placeholder="seuemail@exemplo.com" required />
+            </div>
+            <div class="form-group">
+              <label for="input-cpf">CPF *</label>
+              <input type="text" id="input-cpf" placeholder="000.000.000-00" maxlength="14" required />
+            </div>
+            <div class="form-group">
+              <label for="input-phone">Telefone / WhatsApp *</label>
+              <input type="tel" id="input-phone" placeholder="(11) 99999-9999" maxlength="15" required />
+            </div>
+          </div>
+        </section>
+
+        <section class="checkout-form-section" id="section-address">
+          <h3><i class="fa-solid fa-location-dot"></i> Endereço de entrega</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="input-cep">CEP *</label>
+              <input type="text" id="input-cep" placeholder="00000-000" maxlength="9" required oninput="handleCEP(this)" />
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group span2">
+              <label for="input-street">Rua / Logradouro *</label>
+              <input type="text" id="input-street" placeholder="Nome da rua" required />
+            </div>
+            <div class="form-group">
+              <label for="input-number">Número *</label>
+              <input type="text" id="input-number" placeholder="123" required />
+            </div>
+            <div class="form-group">
+              <label for="input-comp">Complemento</label>
+              <input type="text" id="input-comp" placeholder="Apto, bloco, etc." />
+            </div>
+            <div class="form-group">
+              <label for="input-neighborhood">Bairro *</label>
+              <input type="text" id="input-neighborhood" placeholder="Nome do bairro" required />
+            </div>
+            <div class="form-group">
+              <label for="input-city">Cidade *</label>
+              <input type="text" id="input-city" placeholder="Sua cidade" required />
+            </div>
+            <div class="form-group">
+              <label for="input-state">Estado *</label>
+              <select id="input-state" required>
+                <option value="">Selecione</option>
+                <option>AC</option><option>AL</option><option>AM</option><option>AP</option>
+                <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                <option>GO</option><option>MA</option><option>MG</option><option>MS</option>
+                <option>MT</option><option>PA</option><option>PB</option><option>PE</option>
+                <option>PI</option><option>PR</option><option>RJ</option><option>RN</option>
+                <option>RO</option><option>RR</option><option>RS</option><option>SC</option>
+                <option>SE</option><option selected>SP</option><option>TO</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- ETAPA 2: Pagamento -->
+        <section class="checkout-form-section" id="section-payment">
+          <h3><i class="fa-solid fa-credit-card"></i> Forma de pagamento</h3>
+
+          <div class="payment-options">
+            <div class="payment-option active" data-method="credit" onclick="selectPayment('credit')">
+              <i class="fa-solid fa-credit-card"></i>
+              Cartão de crédito
+            </div>
+            <div class="payment-option" data-method="debit" onclick="selectPayment('debit')">
+              <i class="fa-solid fa-credit-card"></i>
+              Cartão de débito
+            </div>
+            <div class="payment-option" data-method="pix" onclick="selectPayment('pix')">
+              <i class="fa-brands fa-pix"></i>
+              PIX
+            </div>
+          </div>
+
+          <!-- Cartão de Crédito -->
+          <div id="payment-credit" class="payment-fields visible">
+            <div class="form-grid">
+              <div class="form-group span2">
+                <label for="card-number">Número do cartão *</label>
+                <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)" />
+              </div>
+              <div class="form-group span2">
+                <label for="card-name">Nome no cartão *</label>
+                <input type="text" id="card-name" placeholder="NOME COMO NO CARTÃO" style="text-transform:uppercase" />
+              </div>
+              <div class="form-group">
+                <label for="card-expiry">Validade *</label>
+                <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" />
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV *</label>
+                <input type="text" id="card-cvv" placeholder="000" maxlength="4" />
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:12px">
+              <label for="card-installments">Parcelas</label>
+              <select id="card-installments">
+                <option value="1" id="installment-1">1x sem juros</option>
+                <option value="2" id="installment-2">2x sem juros</option>
+                <option value="3" id="installment-3">3x sem juros</option>
+                <option value="6" id="installment-6">6x sem juros</option>
+                <option value="12" id="installment-12">12x com juros</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Cartão de Débito -->
+          <div id="payment-debit" class="payment-fields">
+            <div class="form-grid">
+              <div class="form-group span2">
+                <label for="debit-number">Número do cartão *</label>
+                <input type="text" id="debit-number" placeholder="0000 0000 0000 0000" maxlength="19" oninput="formatCardNumber(this)" />
+              </div>
+              <div class="form-group span2">
+                <label for="debit-name">Nome no cartão *</label>
+                <input type="text" id="debit-name" placeholder="NOME COMO NO CARTÃO" style="text-transform:uppercase" />
+              </div>
+              <div class="form-group">
+                <label for="debit-expiry">Validade *</label>
+                <input type="text" id="debit-expiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" />
+              </div>
+              <div class="form-group">
+                <label for="debit-cvv">CVV *</label>
+                <input type="text" id="debit-cvv" placeholder="000" maxlength="4" />
+              </div>
+            </div>
+          </div>
+
+          <!-- PIX -->
+          <div id="payment-pix" class="payment-fields">
+            <div style="background:var(--bg);border-radius:var(--radius-sm);padding:20px;text-align:center;border:1.5px dashed var(--border)">
+              <i class="fa-brands fa-pix" style="font-size:2.5rem;color:#32bcad;display:block;margin-bottom:12px"></i>
+              <p style="font-weight:600;margin-bottom:6px">Pague com PIX e ganhe 5% de desconto!</p>
+              <p style="font-size:0.85rem;color:var(--text-muted)">Ao finalizar o pedido, um QR Code será gerado para o pagamento instantâneo.</p>
+              <div style="background:var(--white);border-radius:var(--radius-sm);padding:16px;margin-top:16px;border:1.5px solid var(--border)">
+                <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px">Chave PIX (CNPJ)</p>
+                <p style="font-weight:700;font-size:1rem;letter-spacing:1px">00.000.000/0001-00</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOTÃO FINALIZAR -->
+        <div style="padding:0 0 40px">
+          <button class="btn btn-primary" style="width:100%;padding:16px;font-size:1rem" id="btn-place-order" onclick="placeOrder()">
+            <i class="fa-solid fa-lock"></i> Confirmar pedido
+          </button>
+          <p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:10px">
+            <i class="fa-solid fa-shield-halved" style="color:var(--success)"></i>
+            Seus dados estão seguros e protegidos
+          </p>
+        </div>
+      </div>
+
+      <!-- RESUMO DO PEDIDO -->
+      <aside class="order-summary-card" id="order-summary">
+        <h3>Resumo do pedido</h3>
+
+        <div id="order-items-list">
+          <!-- Gerado via JS -->
+        </div>
+
+        <div class="order-totals" id="order-totals">
+          <!-- Gerado via JS -->
+        </div>
+
+        <div class="coupon-row">
+          <input type="text" id="coupon-input" placeholder="Cupom de desconto" />
+          <button class="btn btn-primary" style="padding:9px 16px" onclick="applyCoupon()">Aplicar</button>
+        </div>
+
+        <div class="security-badges">
+          <span class="security-badge"><i class="fa-solid fa-shield-halved"></i> Compra segura</span>
+          <span class="security-badge"><i class="fa-solid fa-lock"></i> Dados protegidos</span>
+          <span class="security-badge"><i class="fa-solid fa-rotate-left"></i> Troca em 30 dias</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
